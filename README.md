@@ -55,7 +55,9 @@ hogwarts_maze = [
     ["T", ".", "T", ".", ".", "."],
     [".", ".", ".", ".", ".", "."],
     [".", ".", ".", "T", ".", "G"] 
-
+**OUTPUT**
+Path to the Goblet: [(0, 0), (1, 0), (2, 0), ..., (5, 5)]
+Path cost: 11
 
 
 
@@ -104,6 +106,13 @@ Implement a simulated annealing algorithm to optimize the wand's properties (cor
     *   e. **Cool Temperature:** Reduce the temperature using the cooling rate: `temperature = temperature * cooling_rate`.
     *   f.  **Best Wand** Check if it's the best wand.
 3.  **Termination:** When the maximum number of iterations is reached or the temperature is sufficiently low, return the best wand found.
+**OUTPUT**
+Initial Wand: {'core': 'unicorn', 'wood': 'willow', 'length': 9.0}
+Best Wand: {'core': 'phoenix', 'wood': 'holly', 'length': 11.23456789012345}
+Best Wand Fitness: 10.0
+
+
+
 
 
 
@@ -152,4 +161,5 @@ Implement the Uniform Cost Search (UCS) algorithm to find the least-cost path fo
         *   Calculate the cost of moving from the current location to the neighbor (using the cost function).
         *   Add the neighbor to the priority queue with the updated cost.
 3.  **No Path Found:** If the priority queue becomes empty before collecting all items, return "No path found."
-
+**OUTPUT**
+Path found: ['Great Hall', 'Potions Classroom'] 
