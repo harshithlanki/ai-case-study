@@ -47,96 +47,6 @@ Implement a bidirectional search algorithm that simulates two students simultane
 3.  **No Path Found:** If both queues become empty without finding a meeting point, return "No path found."
 4.  **Path Reconstruction:** Combine the paths from the forward and backward searches to create the complete path.
 
-**Code:**
-
-```python
-import heapq
-import random
-
-class HogwartsMaze:
-    def __init__(self, grid, start_a, start_b, goal):
-        self.grid = grid
-        self.start_a = start_a
-        self.start_b = start_b
-        self.goal = goal
-        self.rows = len(grid)
-        self.cols = len(grid[0])
-
-    def is_valid(self, x, y):
-        return 0 <= x < self.rows and 0 <= y < self.cols and self.grid[x][y] != "T"  # 'T' represents traps
-
-    def neighbors(self, x, y):
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        for dx, dy in directions:
-            nx, ny = x + dx, y + dy
-            if self.is_valid(nx, ny):
-                yield (nx, ny)
-
-    def apply_magic(self):
-        """Randomly change the maze by adding/removing traps or moving walls."""
-        for _ in range(random.randint(1, 3)):  # Simulate 1-3 magical changes
-            x, y = random.randint(0, self.rows - 1), random.randint(0, self.cols - 1)
-            if self.grid[x][y] == ".":
-                self.grid[x][y] = "T"  # Add a trap
-            elif self.grid[x][y] == "T":
-                self.grid[x][y] = "."  # Remove a trap
-
-    def bidirectional_search(self):
-        forward_queue = [(0, self.start_a)]  # (cost, position)
-        backward_queue = [(0, self.goal)]
-        forward_visited = {self.start_a: 0}
-        backward_visited = {self.goal: 0}
-
-        def process_queue(queue, visited, other_visited):
-            cost, current = heapq.heappop(queue)
-            if current in other_visited:
-                return current, cost + other_visited[current]
-
-            for neighbor in self.neighbors(*current):
-                new_cost = cost + 1
-                if neighbor not in visited or new_cost < visited[neighbor]:
-                    visited[neighbor] = new_cost
-                    heapq.heappush(queue, (new_cost, neighbor))
-            return None, None
-
-        while forward_queue and backward_queue:
-            # Magical maze changes periodically
-            if random.random() < 0.2:  # 20% chance of maze alteration
-                self.apply_magic()
-
-            # Expand forward search
-            result, path_cost = process_queue(forward_queue, forward_visited, backward_visited)
-            if result:
-                return self.reconstruct_path(result, forward_visited, backward_visited), path_cost
-
-            # Expand backward search
-            result, path_cost = process_queue(backward_queue, backward_visited, forward_visited)
-            if result:
-                return self.reconstruct_path(result, backward_visited, forward_visited, reverse=True), path_cost
-
-        return None, float('inf')  # No path found
-
-    def reconstruct_path(self, meeting_point, visited_a, visited_b, reverse=False):
-        path = []
-        current = meeting_point
-        while current:
-            path.append(current)
-            current = self.get_parent(visited_a, current)
-        if not reverse:
-            path.reverse()
-        current = self.get_parent(visited_b, meeting_point)
-        while current:
-            path.append(current)
-            current = self.get_parent(visited_b, current)
-        return path
-
-    def get_parent(self, visited, node):
-        for neighbor in self.neighbors(*node):
-            if visited.get(neighbor, float('inf')) == visited[node] - 1:
-                return neighbor
-        return None
-
-
 # Example Hogwarts maze
 hogwarts_maze = [
     [".", ".", ".", "T", ".", "."],
@@ -144,16 +54,53 @@ hogwarts_maze = [
     [".", ".", ".", ".", ".", "T"],
     ["T", ".", "T", ".", ".", "."],
     [".", ".", ".", ".", ".", "."],
-    [".", ".", ".", "T", ".", "G"]  # 'G' represents Goblet
-]
+    [".", ".", ".", "T", ".", "G"] 
+## Case Study: Hogwarts School of Witchcraft and Wizardry
 
-# Initialize maze
-start_a = (0, 0)  # Gryffindor entry
-start_b = (5, 0)  # Hufflepuff entry
-goal = (5, 5)
-maze = HogwartsMaze(hogwarts_maze, start_a, start_b, goal)
+Hogwarts is a complex environment filled with magical obstacles and dynamic elements. This case study applies Artificial Intelligence (AI) search algorithms to solve problems within Hogwarts, such as navigating the castle, traversing a Triwizard Maze, and customizing a magic wand.
 
-# Run bidirectional search
-path, cost = maze.bidirectional_search()
-print("Path to the Goblet:", path)
-print("Path cost:", cost)
+### Algorithm: Simulated Annealing - Wand Customization
+
+**[Link to program: `[Your_GitHub_Link_Here]`]** (Replace with the actual link to your Simulated Annealing code file)
+
+**Narrative:**
+
+A young witch or wizard needs to customize their wand to maximize its compatibility and magical power. Wand properties such as core type (phoenix feather, dragon heartstring, unicorn hair), wood type (holly, willow, elder, oak), and length all contribute to its overall performance. Some combinations are inherently more powerful, while others might lead to malfunctions. The student uses simulated annealing to find the best combination of wand properties.
+
+**Task:**
+
+Implement a simulated annealing algorithm to optimize the wand's properties (core, wood, length) to achieve the highest possible fitness score, considering both power and stability (avoiding malfunctions).
+
+**Challenges:**
+
+*   **Defining a Fitness Function:** Designing a fitness function that accurately reflects the desired properties of a good wand (power, compatibility, stability) is crucial. The fitness function should reward desirable traits and penalize undesirable ones (e.g., high malfunction probability).
+*   **Neighborhood Generation:** Creating a `get_neighbor` function that generates slightly modified wands (neighbors) is essential. The modifications should be reasonable and allow for exploration of the search space.
+*   **Temperature Schedule:** Choosing appropriate initial temperature and cooling rate is important for balancing exploration (avoiding local optima) and exploitation (finding the best solution). A temperature that cools too rapidly may trap the search in a suboptimal region.
+*   **Malfunctions:** Simulating random wand malfunctions helps to promote wands that offer robust performance despite imperfections.
+
+**Extension:**
+
+*   **Adding More Wand Properties:** Include additional wand properties (flexibility, handle design) and incorporate their impact on the fitness function.
+*   **Rare Materials:** Introduce rare magical materials that can provide significant boosts but may also increase instability.
+*   **User Preferences:** Allow the user to specify preferences for certain wand properties and incorporate these into the fitness function.
+
+**Algorithm Flowchart:**
+
+1.  **Initialize:**
+    *   Create an initial wand with random or default properties.
+    *   Set initial temperature, cooling rate, and maximum iterations.
+2.  **Iterate:** For each iteration:
+    *   a. **Generate Neighbor:** Create a new wand by slightly modifying the properties of the current wand.
+    *   b. **Calculate Fitness Change:** Determine the change in fitness between the neighbor wand and the current wand.
+    *   c. **Acceptance Probability:** Calculate the probability of accepting the neighbor wand based on the change in fitness and the current temperature:
+        *   If `fitness(neighbor) > fitness(current_wand)` (better fitness), accept the neighbor.
+        *   Otherwise, accept the neighbor with probability `exp(delta_fitness / current_temperature)`.
+    *   d. **Update Current Wand:** If the neighbor is accepted, update the current wand.
+    *   e. **Cool Temperature:** Reduce the temperature using the cooling rate: `temperature = temperature * cooling_rate`.
+    *   f.  **Best Wand** Check if it's the best wand.
+3.  **Termination:** When the maximum number of iterations is reached or the temperature is sufficiently low, return the best wand found.
+
+
+
+
+
