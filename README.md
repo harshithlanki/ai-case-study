@@ -4,7 +4,7 @@ Hogwarts is a complex environment filled with magical obstacles and dynamic elem
 
 ### Algorithm: Bidirectional Search - Triwizard Maze Challenge
 
-**[Link to program: `[Your_GitHub_Link_Here]`]** (Replace with the actual link to your bidirectional search code file)
+
 
 **Narrative:**
 
@@ -68,7 +68,7 @@ Hogwarts is a complex environment filled with magical obstacles and dynamic elem
 
 ### Algorithm: Simulated Annealing - Wand Customization
 
-**[Link to program: `[Your_GitHub_Link_Here]`]** (Replace with the actual link to your Simulated Annealing code file)
+
 
 **Narrative:**
 
@@ -123,7 +123,7 @@ Hogwarts is a complex environment filled with magical obstacles and dynamic elem
 
 ### Algorithm: Uniform Cost Search (UCS) - Magical Item Retrieval
 
-**[Link to program: `[Your_GitHub_Link_Here]`]** (Replace with the actual link to your UCS code file)
+
 
 **Narrative:**
 
